@@ -1,0 +1,10 @@
+.TableManager{
+    padding-top: 1.5em;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    & *{
+        width: 30%;
+    }
+}

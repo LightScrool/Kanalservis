@@ -1,5 +1,28 @@
 .App {
-  text-align: center;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 25px;
+  font-size: 1em;
+}
+
+
+@media (max-width: 750px){
+  .App{
+    font-size: 0.8em;
+  }
+}
+
+@media (max-width: 570px){
+  .App{
+    font-size: 0.7em;
+  }
+}
+
+@media (max-width: 450px){
+  .App{
+    font-size: 0.5em;
+  }
+}
+
+@media (max-width: 330px){
+  .App{
+    font-size: 0.4em;
+  }
 }
