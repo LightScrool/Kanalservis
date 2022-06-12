@@ -1,7 +1,11 @@
 import React, {FC} from 'react';
 import "../styles/MyTable.scss";
+import {useTypeSelector} from "../hooks/useTypeSelector";
+import {getDate} from "../utils";
 
 const MyTable: FC = () => {
+    const items = useTypeSelector(state => state.items.allItems);
+
     return (
         <table className="MyTable">
             <tr>
@@ -10,14 +14,16 @@ const MyTable: FC = () => {
                 <th>Количество</th>
                 <th>Расстояние</th>
             </tr>
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((a)=>(
-                <tr key={a}>
-                    <td>11.11.2011</td>
-                    <td>Название вот тут</td>
-                    <td>123</td>
-                    <td>43214</td>
-                </tr>
-            ))}
+            {items.map(item => {
+                return (
+                    <tr key={item.id}>
+                        <td>{getDate(item.date)}</td>
+                        <td>{item.title}</td>
+                        <td>{item.quantity}</td>
+                        <td>{item.distance}</td>
+                    </tr>
+                )
+            })}
         </table>
     );
 };
