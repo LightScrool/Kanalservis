@@ -8,12 +8,15 @@ const MyTable: FC = () => {
 
     return (
         <table className="MyTable">
+            <thead>
             <tr>
                 <th>Дата</th>
                 <th>Название</th>
                 <th>Количество</th>
                 <th>Расстояние</th>
             </tr>
+            </thead>
+            <tbody>
             {items.map(item => {
                 return (
                     <tr key={item.id}>
@@ -24,6 +27,7 @@ const MyTable: FC = () => {
                     </tr>
                 )
             })}
+            </tbody>
         </table>
     );
 };
