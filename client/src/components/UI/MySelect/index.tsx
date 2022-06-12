@@ -2,34 +2,39 @@ import React, {FC} from 'react';
 import './style.scss';
 
 interface MySelectProps {
-    data: { [key: string]: string },
-    title: string,
-    value?: string
+    title?: string,
+    data: { [key: string]: string }, // key - значение, value - текст для отображения
+    value: string,
+    onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void,
     className?: string
 }
 
 const MySelect: FC<MySelectProps> = (
     {
         data,
-        title,
         value,
+        onChange,
+        title,
         className,
         ...props
     }
 ) => {
     return (
-        <select
-            className={"MySelect" + (className ? ` ${className}` : '')}
-            value={value ?? title}
-            {...props}
-        >
-            <option value={""} disabled>{title}</option>
-            {Object.keys(data).map(key => {
-                return (
-                    <option key={key} className={"MySelect__item"} value={key}>{data[key]}</option>
-                )
-            })}
-        </select>
+        <div className={"MySelect" + (className ? ` ${className}` : '')}>
+            {title && <div className="MySelect__title">{title}</div>}
+            <select
+                className="MySelect__select"
+                value={value}
+                onChange={onChange}
+                {...props}
+            >
+                {Object.keys(data).map(key => {
+                    return (
+                        <option key={key} className={"MySelect__item"} value={key}>{data[key]}</option>
+                    )
+                })}
+            </select>
+        </div>
     );
 };
 

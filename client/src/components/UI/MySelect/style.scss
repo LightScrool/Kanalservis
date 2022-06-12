@@ -1,22 +1,29 @@
-.MySelect {
-    transform: translateY(1px);
-
-    height: 2.5em;
-    padding: 0 12px;
-
+@mixin font-styles {
     color: #333;
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     font-size: 1em;
+}
 
-    background-color: transparent;
-    border: 2px solid #e50;
-    cursor: pointer;
+.MySelect {
 
-    &__item{
-        color: #333;
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 700;
-        font-size: 14px;
+    &__title {
+        @include font-styles;
+        margin-bottom: 0.5em;
+    }
+
+    &__select {
+        @include font-styles;
+
+        height: 2.5em;
+        width: 100%;
+        padding: 0 0.8em;
+
+        background-color: transparent;
+        border: 2px solid #e50;
+    }
+
+    &__item {
+        @include font-styles;
     }
 }

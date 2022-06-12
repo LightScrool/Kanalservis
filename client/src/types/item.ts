@@ -3,11 +3,12 @@ export interface ItemType {
     title: string,
     quantity: number,
     distance: number,
-    date: string // TODO: date typing
+    date: string
 }
 
 export enum ItemsActionTypes {
-    FETCH_ITEMS = "FETCH_ITEMS"
+    FETCH_ITEMS = "FETCH_ITEMS",
+    SET_ITEMS_TO_SHOW = "SET_ITEMS_TO_SHOW"
 }
 
 export interface FetchItemsAction {
@@ -15,7 +16,12 @@ export interface FetchItemsAction {
     payload: ItemType[]
 }
 
-export type ItemsAction = FetchItemsAction;
+export interface SetItemsToShowAction {
+    type: ItemsActionTypes.SET_ITEMS_TO_SHOW,
+    payload: ItemType[]
+}
+
+export type ItemsAction = FetchItemsAction | SetItemsToShowAction;
 
 export interface ItemsState {
     allItems: ItemType[],
