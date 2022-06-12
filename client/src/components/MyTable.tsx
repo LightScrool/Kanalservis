@@ -4,7 +4,7 @@ import {useTypeSelector} from "../hooks/useTypeSelector";
 import {getDate} from "../utils";
 
 const MyTable: FC = () => {
-    const items = useTypeSelector(state => state.items.allItems);
+    const items = useTypeSelector(state => state.items.itemsToShow);
 
     return (
         <table className="MyTable">
@@ -20,7 +20,7 @@ const MyTable: FC = () => {
             {items.map(item => {
                 return (
                     <tr key={item.id}>
-                        <td>{getDate(item.date)}</td>
+                        <td>{item.date}</td>
                         <td>{item.title}</td>
                         <td>{item.quantity}</td>
                         <td>{item.distance}</td>
