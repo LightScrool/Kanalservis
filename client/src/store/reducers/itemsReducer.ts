@@ -1,16 +1,22 @@
-import {ItemsAction, ItemsActionTypes, ItemsState} from "../../types/item";
+import {ItemsAction, ItemsActionTypes, TItemsState} from "../../types/redux";
 
-const initState: ItemsState = {
+const initState: TItemsState = {
     allItems: [],
-    itemsToShow: []
+    filteredItems: [],
+    sortedItems: [],
+    currentPage: 1
 }
 
-export const itemsReducer = (state: ItemsState = initState, action: ItemsAction): ItemsState => {
+export const itemsReducer = (state: TItemsState = initState, action: ItemsAction): TItemsState => {
     switch (action.type) {
         case ItemsActionTypes.FETCH_ITEMS:
             return state = {...state, allItems: action.payload};
-        case ItemsActionTypes.SET_ITEMS_TO_SHOW:
-            return state = {...state, itemsToShow: action.payload};
+        case ItemsActionTypes.SET_FILTERED_ITEMS:
+            return state = {...state, filteredItems: action.payload};
+        case ItemsActionTypes.SET_SORTED_ITEMS:
+            return state = {...state, sortedItems: action.payload};
+        case ItemsActionTypes.SET_CURRENT_PAGE:
+            return state = {...state, currentPage: action.payload};
         default:
             return state;
     }

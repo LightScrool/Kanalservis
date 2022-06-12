@@ -1,10 +1,9 @@
 import React, {FC} from 'react';
 import "../styles/MyTable.scss";
 import {useTypeSelector} from "../hooks/useTypeSelector";
-import {getDate} from "../utils";
 
 const MyTable: FC = () => {
-    const items = useTypeSelector(state => state.items.itemsToShow);
+    const items = useTypeSelector(state => state.items.filteredItems);
 
     return (
         <table className="MyTable">

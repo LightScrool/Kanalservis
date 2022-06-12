@@ -1,6 +1,13 @@
 import axios from "axios";
 import {Dispatch} from "redux";
-import {ItemsAction, ItemsActionTypes, ItemType, SetItemsToShowAction} from "../../types/item";
+import {
+    ItemsAction,
+    ItemsActionTypes,
+    TSetCurrentPageAction,
+    TSetFilteredItemsAction,
+    TSetSortedItemsAction
+} from "../../types/redux";
+import {ItemType} from "../../types"
 import {getDate} from "../../utils";
 
 const URL = "http://localhost:8080/api";
@@ -13,6 +20,14 @@ export const fetchItems = () => {
     }
 }
 
-export const setItemsToShowAction = (items: ItemType[]): SetItemsToShowAction => {
-    return {type: ItemsActionTypes.SET_ITEMS_TO_SHOW, payload: items}
+export const setFilteredItemsActionCreator = (items: ItemType[]): TSetFilteredItemsAction => {
+    return {type: ItemsActionTypes.SET_FILTERED_ITEMS, payload: items}
+}
+
+export const setSortedItemsActionCreator = (items: ItemType[]): TSetSortedItemsAction => {
+    return {type: ItemsActionTypes.SET_SORTED_ITEMS, payload: items}
+}
+
+export const setCurrentPageActionCreator = (page: number): TSetCurrentPageAction => {
+    return {type: ItemsActionTypes.SET_CURRENT_PAGE, payload: page}
 }

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import '../styles/App.scss';
 import Container from "./Container";
-import TableManager from "./TableManager";
+import FilterManager from "./FilterManager";
 import PagesList from "./PagesList";
 import MyTable from "./MyTable";
 import {useDispatch} from "react-redux";
@@ -17,7 +17,7 @@ function App() {
     return (
         <div className="App">
             <Container>
-                <TableManager/>
+                <FilterManager/>
                 <PagesList/>
                 <MyTable/>
             </Container>
