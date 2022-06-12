@@ -1,4 +1,4 @@
-import { ItemType } from ".";
+import { TItem } from ".";
 
 export enum ItemsActionTypes {
     FETCH_ITEMS = "FETCH_ITEMS",
@@ -9,17 +9,17 @@ export enum ItemsActionTypes {
 
 export interface TFetchItemsAction {
     type: ItemsActionTypes.FETCH_ITEMS,
-    payload: ItemType[]
+    payload: TItem[]
 }
 
 export interface TSetFilteredItemsAction {
     type: ItemsActionTypes.SET_FILTERED_ITEMS,
-    payload: ItemType[]
+    payload: TItem[]
 }
 
 export interface TSetSortedItemsAction {
     type: ItemsActionTypes.SET_SORTED_ITEMS,
-    payload: ItemType[]
+    payload: TItem[]
 }
 
 export interface TSetCurrentPageAction {
@@ -30,8 +30,8 @@ export interface TSetCurrentPageAction {
 export type ItemsAction = TFetchItemsAction | TSetFilteredItemsAction | TSetSortedItemsAction | TSetCurrentPageAction;
 
 export interface TItemsState {
-    allItems: ItemType[],
-    filteredItems: ItemType[],
-    sortedItems: ItemType[],
+    allItems: TItem[],
+    filteredItems: TItem[],
+    sortedItems: TItem[],
     currentPage: number
 }
