@@ -1,18 +1,19 @@
-.FilterFieldTh{
+.FilterFieldTh {
     cursor: pointer;
 
-    &__arrow{
+    &__arrow {
         display: inline-block;
         font-size: 0.8em;
         transform: translateY(-0.05em);
 
         transition: transform .3s;
-        &._up{
-            transform: translateY(-0.05em) rotate(90deg);
+
+        &._up {
+            transform: translateY(-0.05em) rotate(-90deg);
         }
 
-        &._down{
-            transform: translateY(-0.05em) rotate(-90deg);
+        &._down {
+            transform: translateY(-0.05em) rotate(90deg);
         }
     }
 }

@@ -33,67 +33,68 @@ function App() {
 
     // Применения фильтра
     const filteredItems = useMemo<TItem[]>(() => {
+        const value = filterValue.toLowerCase()
         let itemsToShow = allItems;
 
-        if (filterValue == "") {
+        if (value == "") {
             return itemsToShow;
         }
 
         switch (filterCondition) {
             case "equal":
-                itemsToShow = allItems.filter((item) => String(item[filterField]) === filterValue)
+                itemsToShow = allItems.filter((item) => String(item[filterField]).toLowerCase() === value)
                 break;
 
             case "contains":
-                itemsToShow = allItems.filter((item) => String(item[filterField]).includes(filterValue))
+                itemsToShow = allItems.filter((item) => String(item[filterField]).toLowerCase().includes(value))
                 break;
 
             case "more":
                 if (filterField === ItemKeys.distance || filterField === ItemKeys.quantity) {
-                    if (isNaN(Number(filterValue))) {
+                    if (isNaN(Number(value))) {
                         itemsToShow = [];
                         break;
                     }
 
-                    itemsToShow = allItems.filter((item) => item[filterField] > Number(filterValue))
+                    itemsToShow = allItems.filter((item) => item[filterField] > Number(value))
                     break;
                 }
 
                 if (filterField === ItemKeys.date) {
-                    if (!checkDateFormat(filterValue)) {
+                    if (!checkDateFormat(value)) {
                         itemsToShow = [];
                         break;
                     }
 
-                    itemsToShow = allItems.filter((item) => dateCompareMore(item.date, filterValue))
+                    itemsToShow = allItems.filter((item) => dateCompareMore(item.date, value))
                     break;
                 }
 
-                itemsToShow = allItems.filter((item) => item[filterField] > filterValue);
+                itemsToShow = allItems.filter((item) => item[filterField] > value);
                 break;
 
             case "less":
                 if (filterField === ItemKeys.distance || filterField === ItemKeys.quantity) {
-                    if (isNaN(Number(filterValue))) {
+                    if (isNaN(Number(value))) {
                         itemsToShow = [];
                         break;
                     }
 
-                    itemsToShow = allItems.filter((item) => item[filterField] < Number(filterValue))
+                    itemsToShow = allItems.filter((item) => item[filterField] < Number(value))
                     break;
                 }
 
                 if (filterField === ItemKeys.date) {
-                    if (!checkDateFormat(filterValue)) {
+                    if (!checkDateFormat(value)) {
                         itemsToShow = [];
                         break;
                     }
 
-                    itemsToShow = allItems.filter((item) => (!dateCompareMore(item.date, filterValue) && item.date !== filterValue))
+                    itemsToShow = allItems.filter((item) => (!dateCompareMore(item.date, value) && item.date !== value))
                     break;
                 }
 
-                itemsToShow = allItems.filter((item) => item[filterField] < filterValue);
+                itemsToShow = allItems.filter((item) => item[filterField] < value);
                 break;
         }
 
