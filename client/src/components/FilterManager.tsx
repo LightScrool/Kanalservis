@@ -31,7 +31,7 @@ const FilterManager = () => {
     return (
         <div className="TableManager">
             <MySelect
-                title="Поле"
+                title="Столбец"
                 data={FILTER_FIELDS}
                 value={filterField}
                 onChange={(event: React.ChangeEvent<HTMLSelectElement>) => setFilterField(event.target.value)}
