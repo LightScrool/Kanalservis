@@ -5,7 +5,7 @@ import {FILTER_CONDITIONS} from "../constants";
 const initState: TItemsState = {
     allItems: [],
     currentPage: 1,
-    filterField: ItemKeys.title,
+    filterField: ItemKeys.date,
     filterCondition: Object.keys(FILTER_CONDITIONS)[0],
     filterValue: "",
     sortField: null,

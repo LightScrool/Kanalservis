@@ -12,6 +12,7 @@ import {ITEMS_ON_PAGE} from "../store/constants";
 import useFetching from "../hooks/useFetching";
 import Loader from "./Loader";
 import FetchingError from "./FetchingError";
+import {checkDateFormat, dateCompareMore} from "../utils";
 
 function App() {
     const allItems = useTypeSelector(state => state.items.allItems);
@@ -58,6 +59,16 @@ function App() {
                     break;
                 }
 
+                if (filterField === ItemKeys.date) {
+                    if (!checkDateFormat(filterValue)) {
+                        itemsToShow = [];
+                        break;
+                    }
+
+                    itemsToShow = allItems.filter((item) => dateCompareMore(item.date, filterValue))
+                    break;
+                }
+
                 itemsToShow = allItems.filter((item) => item[filterField] > filterValue);
                 break;
 
@@ -69,6 +80,16 @@ function App() {
                     }
 
                     itemsToShow = allItems.filter((item) => item[filterField] < Number(filterValue))
+                    break;
+                }
+
+                if (filterField === ItemKeys.date) {
+                    if (!checkDateFormat(filterValue)) {
+                        itemsToShow = [];
+                        break;
+                    }
+
+                    itemsToShow = allItems.filter((item) => (!dateCompareMore(item.date, filterValue) && item.date !== filterValue))
                     break;
                 }
 
