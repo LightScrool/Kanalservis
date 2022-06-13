@@ -3,11 +3,11 @@ import {Dispatch} from "redux";
 import {
     ItemsAction,
     ItemsActionTypes,
-    TSetCurrentPageAction,
-    TSetFilteredItemsAction,
-    TSetSortedItemsAction
+    TSetCurrentPageAction, TSetFilterConditionAction,
+    TSetFilteredItemsAction, TSetFilterFieldAction, TSetFilterValueAction,
+    TSetSortedItemsAction, TSetSortFieldAction, TSetSortReverseAction
 } from "../../types/redux";
-import {TItem} from "../../types"
+import {ItemKeys, TItem} from "../../types"
 import {getDate} from "../../utils";
 
 const URL = "http://localhost:8080/api";
@@ -30,4 +30,24 @@ export const setSortedItemsActionCreator = (items: TItem[]): TSetSortedItemsActi
 
 export const setCurrentPageActionCreator = (page: number): TSetCurrentPageAction => {
     return {type: ItemsActionTypes.SET_CURRENT_PAGE, payload: page}
+}
+
+export const setFilterConditionActionCreator = (condition: string): TSetFilterConditionAction => {
+    return {type: ItemsActionTypes.SET_FILTER_CONDITION, payload: condition}
+}
+
+export const setFilterFieldActionCreator = (field: ItemKeys): TSetFilterFieldAction => {
+    return {type: ItemsActionTypes.SET_FILTER_FIELD, payload: field}
+}
+
+export const setFilterValueActionCreator = (value: string): TSetFilterValueAction => {
+    return {type: ItemsActionTypes.SET_FILTER_VALUE, payload: value}
+}
+
+export const setSortFieldActionCreator = (field: ItemKeys): TSetSortFieldAction => {
+    return {type: ItemsActionTypes.SET_SORT_FIELD, payload: field}
+}
+
+export const setSortReverseActionCreator = (reverse: boolean): TSetSortReverseAction => {
+    return {type: ItemsActionTypes.SET_SORT_REVERSE, payload: reverse}
 }
