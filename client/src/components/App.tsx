@@ -14,6 +14,8 @@ function App() {
     const filterField = useTypeSelector(state => state.items.filterField);
     const filterCondition = useTypeSelector(state => state.items.filterCondition);
     const filterValue = useTypeSelector(state => state.items.filterValue);
+    const sortField = useTypeSelector(state => state.items.sortField);
+    const sortReverse = useTypeSelector(state => state.items.sortReverse);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -68,12 +70,32 @@ function App() {
         return itemsToShow;
     }, [allItems, filterField, filterCondition, filterValue])
 
+    const sortedFilteredItems = useMemo<TItem[]>(() => {
+        if (sortField === null)
+            return filteredItems;
+
+        let result: TItem[];
+
+        if (sortField === ItemKeys.distance || sortField === ItemKeys.quantity) {
+            result = filteredItems.sort((a, b) => a[sortField] - b[sortField]);
+        } else {
+            result = filteredItems.sort((a, b) => {
+                if (a[sortField] >= b[sortField]) return 1;
+                return -1;
+            });
+        }
+
+        if (sortReverse) result = result.reverse();
+
+        return result;
+    }, [filteredItems, sortField, sortReverse])
+
     return (
         <div className="App">
             <Container>
                 <FilterManager/>
                 <PagesList/>
-                <MyTable data={filteredItems}/>
+                <MyTable data={sortedFilteredItems}/>
             </Container>
         </div>
     );
