@@ -1,9 +1,17 @@
-/* Преобразовывает строку с датой из формата, который возвращает сервер в формат DD.MM.YYYY */
-export const getDate = (dateTime: string): string => {
-    const day = dateTime.slice(8, 10);
-    const month = dateTime.slice(5, 7);
-    const year = dateTime.slice(0, 4);
+/* Возвращает строку в формате DD.MM.YYYY из объекта Date*/
+export const getStringFromDate = (date: Date): string => {
+    const day = ('00' + String(date.getDate())).slice(-2);
+    const month = ('00' + String(date.getMonth() + 1)).slice(-2);
+    const year = ('0000' + String(date.getFullYear())).slice(-4);
     return `${day}.${month}.${year}`;
+}
+
+/* Возвращает объект Date из строки в формате DD.MM.YYYY */
+export const getDateFromString = (str: string): Date => {
+    const day = Number(str.slice(0, 2));
+    const month = Number(str.slice(3, 5));
+    const year = Number(str.slice(6));
+    return new Date(year, month, day);
 }
 
 /* Возвращает массив с числами от start до end с шагом dif
@@ -30,14 +38,7 @@ export const checkDateFormat = (date: string): boolean => {
         && !isNaN(Number(date.slice(6)))
         && Number(date.slice(0, 2)) >= 0
         && Number(date.slice(3, 5)) >= 0
-        && Number(date.slice(6, 9)) >= 0
+        && Number(date.slice(6)) >= 0
         && Number(date.slice(0, 2)) <= 31
         && Number(date.slice(3, 5)) <= 12;
-}
-
-/* Возвращает true, если первая дата больше второй. В обратном случае - возвращает false */
-export const dateCompareMore = (a: string, b: string): boolean => {
-    if (a.slice(6) !== b.slice(6)) return Number(a.slice(6)) > Number(b.slice(6));
-    if (a.slice(3, 5) !== b.slice(3, 5)) return Number(a.slice(3, 5)) > Number(b.slice(3, 5));
-    return Number(a.slice(0, 2)) > Number(b.slice(0, 2));
 }

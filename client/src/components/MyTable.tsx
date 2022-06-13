@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import "../styles/MyTable.scss";
 import {ItemKeys, TItem} from "../types";
 import FilterFieldTh from "./FilterFieldTh";
+import {getStringFromDate} from "../utils";
 
 interface MyTableProps {
     data: TItem[]
@@ -23,7 +24,7 @@ const MyTable: FC<MyTableProps> = ({data}) => {
             {
                 data.map(item => (
                     <tr key={item.id}>
-                        <td>{item.date}</td>
+                        <td>{getStringFromDate(item.date)}</td>
                         <td>{item.title}</td>
                         <td>{item.quantity}</td>
                         <td>{item.distance}</td>

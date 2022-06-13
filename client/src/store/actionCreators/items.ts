@@ -10,14 +10,13 @@ import {
     TSetSortFieldAction,
     TSetSortReverseAction
 } from "../../types/redux";
-import {ItemKeys, TItem} from "../../types"
-import {getDate} from "../../utils";
+import {ItemKeys, TItem, TItemFromServer} from "../../types"
 import {SERVER_URL} from "../constants";
 
 export const fetchItems = () => {
     return async (dispatch: Dispatch<ItemsAction>) => {
         const response = await axios.get(SERVER_URL);
-        const data: TItem[] = response.data.map((item: TItem) => ({...item, date: (getDate(item.date))}));
+        const data: TItem[] = response.data.map((item: TItemFromServer) => ({...item, date: new Date(Date.parse(item.date))}));
         dispatch({type: ItemsActionTypes.FETCH_ITEMS, payload: data})
     }
 }

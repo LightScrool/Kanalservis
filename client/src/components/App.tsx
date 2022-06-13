@@ -12,8 +12,7 @@ import {ITEMS_ON_PAGE} from "../store/constants";
 import useFetching from "../hooks/useFetching";
 import Loader from "./Loader";
 import FetchingError from "./FetchingError";
-import {checkDateFormat, dateCompareMore} from "../utils";
-import {itemFilterLess, itemFilterMore} from "../utils/itemFilters";
+import itemFilter from "../utils/itemFilter";
 
 function App() {
     const allItems = useTypeSelector(state => state.items.allItems);
@@ -30,37 +29,16 @@ function App() {
     // Загрузка данных с сервера
     useEffect(() => {
         itemsFetchingWithHook();
-    }, []);
+    }, [itemsFetchingWithHook]);
 
     // Применения фильтра
     const filteredItems = useMemo<TItem[]>(() => {
         // Сравнение будет вестись в нижнем регистре
         const value = filterValue.toLowerCase()
-        let result = allItems;
 
-        if (value == "") {
-            return result;
-        }
+        if (value === "") return allItems;
 
-        switch (filterCondition) {
-            case "equal":
-                result = allItems.filter((item) => String(item[filterField]).toLowerCase() === value)
-                break;
-
-            case "contains":
-                result = allItems.filter((item) => String(item[filterField]).toLowerCase().includes(value))
-                break;
-
-            case "more":
-                result = itemFilterMore(allItems, filterField, value);
-                break;
-
-            case "less":
-                result = itemFilterLess(allItems, filterField, value);
-                break;
-        }
-
-        return result;
+        return itemFilter(filterCondition,allItems, filterField, value);
     }, [allItems, filterField, filterCondition, filterValue]);
 
     // Сортировка
@@ -93,12 +71,12 @@ function App() {
     // Расчёт количество страниц
     const pagesQuantity = useMemo<number>(() => {
         return Math.ceil(sortedFilteredItems.length / ITEMS_ON_PAGE);
-    }, [filteredItems, ITEMS_ON_PAGE])
+    }, [sortedFilteredItems])
 
     // Страница сбрасывается на 1, если количество страниц было изменено
     useEffect(() => {
         dispatch(setCurrentPageActionCreator(1))
-    }, [pagesQuantity])
+    }, [pagesQuantity, dispatch])
 
     // Полчение строк для отображения на текущей странице
     const itemsToShowOnPage = useMemo<TItem[]>(() => {

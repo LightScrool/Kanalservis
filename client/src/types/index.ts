@@ -11,5 +11,13 @@ export interface TItem {
     title: string,
     quantity: number,
     distance: number,
+    date: Date
+}
+
+export interface TItemFromServer {
+    id: number,
+    title: string,
+    quantity: number,
+    distance: number,
     date: string
 }
