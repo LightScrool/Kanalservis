@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import "../styles/MyTable.scss";
-import {TItem} from "../types";
+import {ItemKeys, TItem} from "../types";
+import FilterFieldTh from "./FilterFieldTh";
 
 interface MyTableProps {
     data: TItem[]
@@ -13,9 +14,9 @@ const MyTable: FC<MyTableProps> = ({data}) => {
             <thead>
             <tr>
                 <th>Дата</th>
-                <th>Название</th>
-                <th>Количество</th>
-                <th>Расстояние</th>
+                <FilterFieldTh text="Название" value={ItemKeys.title}/>
+                <FilterFieldTh text="Количество" value={ItemKeys.quantity}/>
+                <FilterFieldTh text="Расстояние" value={ItemKeys.distance}/>
             </tr>
             </thead>
             <tbody>
