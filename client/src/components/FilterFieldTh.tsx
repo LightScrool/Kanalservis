@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useMemo} from 'react';
 import "../styles/FilterFieldTh.scss";
 import {ItemKeys} from "../types";
 import {useDispatch} from "react-redux";
@@ -24,9 +24,18 @@ const FilterFieldTh: FC<FilterFieldThProps> = ({text, value}) => {
         }
     }
 
-    // TODO: indication of chosen sort field
+    const arrowDirection = useMemo<string>(() => {
+        if (sortField !== value) return "";
+        return sortReverse ? "_up" : "_down"
+    }, [sortField, sortReverse])
+
     return (
-        <th className="FilterFieldTh" onClick={onClick}>{text}</th>
+        <th
+            className="FilterFieldTh"
+            onClick={onClick}
+        >
+            {text} <span className={`FilterFieldTh__arrow ${arrowDirection}`}>◀</span>
+        </th>
     );
 };
 
