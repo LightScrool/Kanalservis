@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import "../styles/PagesList.scss";
-import PageButton from "./UI/PageButton";
+import PageButton from "./PageButton";
 import {getRange} from "../utils";
 import {setCurrentPageActionCreator} from "../store/actionCreators/items";
 import {useDispatch} from "react-redux";
@@ -25,10 +25,9 @@ const PagesList: FC<PagesListProps> = ({pagesQuantity}) => {
                 pagesList.map(page => (
                     <PageButton
                         key={page}
+                        page={page}
                         onClick={() => setCurrentPage(page)}
-                    >
-                        {page}
-                    </PageButton>
+                    />
                 ))
             }
         </div>
