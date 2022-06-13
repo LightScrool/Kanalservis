@@ -84,12 +84,12 @@ function App() {
         if (sortField === null)
             return filteredItems;
 
-        let result: TItem[];
+        let result: TItem[] = filteredItems.filter(() => true); // Создание копии массива
 
         if (sortField === ItemKeys.distance || sortField === ItemKeys.quantity) {
-            result = filteredItems.sort((a, b) => a[sortField] - b[sortField]);
+            result.sort((a, b) => a[sortField] - b[sortField]);
         } else {
-            result = filteredItems.sort((a, b) => {
+            result.sort((a, b) => {
                 if (a[sortField] >= b[sortField]) return 1;
                 return -1;
             });
