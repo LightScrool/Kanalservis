@@ -9,6 +9,9 @@ import {fetchItems, setCurrentPageActionCreator} from "../store/actionCreators/i
 import {useTypeSelector} from "../hooks/useTypeSelector";
 import {ItemKeys, TItem} from "../types";
 import {ITEMS_ON_PAGE} from "../store/constants";
+import useFetching from "../hooks/useFetching";
+import Loader from "./Loader";
+import FetchingError from "./FetchingError";
 
 function App() {
     const allItems = useTypeSelector(state => state.items.allItems);
@@ -20,9 +23,11 @@ function App() {
     const currentPage = useTypeSelector(state => state.items.currentPage);
     const dispatch = useDispatch();
 
+    const [itemsFetchingWithHook, isLoading, error] = useFetching(() => fetchItems()(dispatch));
+
     // Загрузка данных с сервера
     useEffect(() => {
-        fetchItems()(dispatch);
+        itemsFetchingWithHook();
     }, []);
 
     // Применения фильтра
@@ -116,8 +121,20 @@ function App() {
         <div className="App">
             <Container>
                 <FilterManager/>
-                <PagesList pagesQuantity={pagesQuantity}/>
-                <MyTable data={itemsToShowOnPage}/>
+                {
+                    isLoading
+                        ?
+                        <Loader/>
+                        :
+                        error === null
+                            ?
+                            <>
+                                <PagesList pagesQuantity={pagesQuantity}/>
+                                <MyTable data={itemsToShowOnPage}/>
+                            </>
+                            :
+                            <FetchingError/>
+                }
             </Container>
         </div>
     );
