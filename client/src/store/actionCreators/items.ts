@@ -3,9 +3,12 @@ import {Dispatch} from "redux";
 import {
     ItemsAction,
     ItemsActionTypes,
-    TSetCurrentPageAction, TSetFilterConditionAction,
-    TSetFilteredItemsAction, TSetFilterFieldAction, TSetFilterValueAction,
-    TSetSortedItemsAction, TSetSortFieldAction, TSetSortReverseAction
+    TSetCurrentPageAction,
+    TSetFilterConditionAction,
+    TSetFilterFieldAction,
+    TSetFilterValueAction,
+    TSetSortFieldAction,
+    TSetSortReverseAction
 } from "../../types/redux";
 import {ItemKeys, TItem} from "../../types"
 import {getDate} from "../../utils";
@@ -18,14 +21,6 @@ export const fetchItems = () => {
         const data: TItem[] = response.data.map((item: TItem) => ({...item, date: (getDate(item.date))}));
         dispatch({type: ItemsActionTypes.FETCH_ITEMS, payload: data})
     }
-}
-
-export const setFilteredItemsActionCreator = (items: TItem[]): TSetFilteredItemsAction => {
-    return {type: ItemsActionTypes.SET_FILTERED_ITEMS, payload: items}
-}
-
-export const setSortedItemsActionCreator = (items: TItem[]): TSetSortedItemsAction => {
-    return {type: ItemsActionTypes.SET_SORTED_ITEMS, payload: items}
 }
 
 export const setCurrentPageActionCreator = (page: number): TSetCurrentPageAction => {

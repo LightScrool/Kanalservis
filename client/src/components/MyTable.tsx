@@ -1,9 +1,12 @@
 import React, {FC} from 'react';
 import "../styles/MyTable.scss";
-import {useTypeSelector} from "../hooks/useTypeSelector";
+import {TItem} from "../types";
 
-const MyTable: FC = () => {
-    const items = useTypeSelector(state => state.items.filteredItems);
+interface MyTableProps {
+    data: TItem[]
+}
+
+const MyTable: FC<MyTableProps> = ({data}) => {
 
     return (
         <table className="MyTable">
@@ -16,16 +19,16 @@ const MyTable: FC = () => {
             </tr>
             </thead>
             <tbody>
-            {items.map(item => {
-                return (
+            {
+                data.map(item => (
                     <tr key={item.id}>
                         <td>{item.date}</td>
                         <td>{item.title}</td>
                         <td>{item.quantity}</td>
                         <td>{item.distance}</td>
                     </tr>
-                )
-            })}
+                ))
+            }
             </tbody>
         </table>
     );

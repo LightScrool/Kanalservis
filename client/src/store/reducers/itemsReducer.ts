@@ -4,8 +4,6 @@ import {FILTER_CONDITIONS} from "../constants";
 
 const initState: TItemsState = {
     allItems: [],
-    filteredItems: [],
-    sortedItems: [],
     currentPage: 1,
     filterField: ItemKeys.title,
     filterCondition: Object.keys(FILTER_CONDITIONS)[0],
@@ -18,10 +16,6 @@ export const itemsReducer = (state: TItemsState = initState, action: ItemsAction
     switch (action.type) {
         case ItemsActionTypes.FETCH_ITEMS:
             return state = {...state, allItems: action.payload};
-        case ItemsActionTypes.SET_FILTERED_ITEMS:
-            return state = {...state, filteredItems: action.payload};
-        case ItemsActionTypes.SET_SORTED_ITEMS:
-            return state = {...state, sortedItems: action.payload};
         case ItemsActionTypes.SET_CURRENT_PAGE:
             return state = {...state, currentPage: action.payload};
         case ItemsActionTypes.SET_FILTER_FIELD:

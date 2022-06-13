@@ -2,8 +2,6 @@ import {ItemKeys, TItem} from ".";
 
 export enum ItemsActionTypes {
     FETCH_ITEMS = "FETCH_ITEMS",
-    SET_FILTERED_ITEMS = "SET_FILTERED_ITEMS",
-    SET_SORTED_ITEMS = "SET_SORTED_ITEMS",
     SET_CURRENT_PAGE = "SET_CURRENT_PAGE",
     SET_FILTER_FIELD = "SET_FILTER_FIELD",
     SET_FILTER_CONDITION = "SET_FILTER_CONDITION",
@@ -14,16 +12,6 @@ export enum ItemsActionTypes {
 
 export interface TFetchItemsAction {
     type: ItemsActionTypes.FETCH_ITEMS,
-    payload: TItem[]
-}
-
-export interface TSetFilteredItemsAction {
-    type: ItemsActionTypes.SET_FILTERED_ITEMS,
-    payload: TItem[]
-}
-
-export interface TSetSortedItemsAction {
-    type: ItemsActionTypes.SET_SORTED_ITEMS,
     payload: TItem[]
 }
 
@@ -58,8 +46,6 @@ export interface TSetSortReverseAction {
 }
 
 export type ItemsAction = TFetchItemsAction
-    | TSetFilteredItemsAction
-    | TSetSortedItemsAction
     | TSetCurrentPageAction
     | TSetFilterConditionAction
     | TSetFilterFieldAction
@@ -69,8 +55,6 @@ export type ItemsAction = TFetchItemsAction
 
 export interface TItemsState {
     allItems: TItem[],
-    filteredItems: TItem[],
-    sortedItems: TItem[],
     currentPage: number,
     filterField: ItemKeys,
     filterCondition: string
