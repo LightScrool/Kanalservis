@@ -1,14 +1,36 @@
-import React from 'react';
+import React, {FC} from 'react';
 import "../styles/PagesList.scss";
-import Index from "./UI/PageButton";
+import PageButton from "./UI/PageButton";
+import {getRange} from "../utils";
+import {setCurrentPageActionCreator} from "../store/actionCreators/items";
+import {useDispatch} from "react-redux";
 
-const PagesList = () => {
+interface PagesListProps {
+    pagesQuantity: number;
+}
+
+const PagesList: FC<PagesListProps> = ({pagesQuantity}) => {
+    const dispatch = useDispatch();
+    const setCurrentPage = (page: number): void => {dispatch(setCurrentPageActionCreator(page))}
+
+    const pagesList = getRange(pagesQuantity + 1, 1);
+
     return (
+        pagesList.length <= 1
+        ?
+        <></>
+        :
         <div className="PagesList">
-            <Index>1</Index>
-            <Index>1</Index>
-            <Index>1</Index>
-            <Index>1</Index>
+            {
+                pagesList.map(page => (
+                    <PageButton
+                        key={page}
+                        onClick={() => setCurrentPage(page)}
+                    >
+                        {page}
+                    </PageButton>
+                ))
+            }
         </div>
     );
 };

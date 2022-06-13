@@ -5,9 +5,10 @@ import FilterManager from "./FilterManager";
 import PagesList from "./PagesList";
 import MyTable from "./MyTable";
 import {useDispatch} from "react-redux";
-import {fetchItems} from "../store/actionCreators/items";
+import {fetchItems, setCurrentPageActionCreator} from "../store/actionCreators/items";
 import {useTypeSelector} from "../hooks/useTypeSelector";
 import {ItemKeys, TItem} from "../types";
+import {ITEMS_ON_PAGE} from "../store/constants";
 
 function App() {
     const allItems = useTypeSelector(state => state.items.allItems);
@@ -16,12 +17,15 @@ function App() {
     const filterValue = useTypeSelector(state => state.items.filterValue);
     const sortField = useTypeSelector(state => state.items.sortField);
     const sortReverse = useTypeSelector(state => state.items.sortReverse);
+    const currentPage = useTypeSelector(state => state.items.currentPage);
     const dispatch = useDispatch();
 
+    // Загрузка данных с сервера
     useEffect(() => {
         fetchItems()(dispatch);
-    }, [])
+    }, []);
 
+    // Применения фильтра
     const filteredItems = useMemo<TItem[]>(() => {
         let itemsToShow = allItems;
 
@@ -68,8 +72,9 @@ function App() {
         }
 
         return itemsToShow;
-    }, [allItems, filterField, filterCondition, filterValue])
+    }, [allItems, filterField, filterCondition, filterValue]);
 
+    // Сортировка
     const sortedFilteredItems = useMemo<TItem[]>(() => {
         if (sortField === null)
             return filteredItems;
@@ -88,14 +93,31 @@ function App() {
         if (sortReverse) result = result.reverse();
 
         return result;
-    }, [filteredItems, sortField, sortReverse])
+    }, [filteredItems, sortField, sortReverse]);
+
+    // Расчёт количество страниц
+    const pagesQuantity = useMemo<number>(() => {
+        return Math.ceil(sortedFilteredItems.length / ITEMS_ON_PAGE);
+    }, [filteredItems, ITEMS_ON_PAGE])
+
+    // Страница сбрасывается на 1, если количество страниц было изменено
+    useEffect(() => {
+        dispatch(setCurrentPageActionCreator(1))
+    }, [pagesQuantity])
+
+    // Полчение строк для отображения на текущей странице
+    const itemsToShowOnPage = useMemo<TItem[]>(() => {
+        return sortedFilteredItems.filter((item, index) => {
+            return index >= ITEMS_ON_PAGE * (currentPage - 1) && index < ITEMS_ON_PAGE * currentPage;
+        });
+    }, [sortedFilteredItems, currentPage])
 
     return (
         <div className="App">
             <Container>
                 <FilterManager/>
-                <PagesList/>
-                <MyTable data={sortedFilteredItems}/>
+                <PagesList pagesQuantity={pagesQuantity}/>
+                <MyTable data={itemsToShowOnPage}/>
             </Container>
         </div>
     );
