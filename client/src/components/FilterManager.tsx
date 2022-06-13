@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import "../styles/TableManager.scss";
 import MySelect from "./UI/MySelect";
 import MyInput from "./UI/MyInput";

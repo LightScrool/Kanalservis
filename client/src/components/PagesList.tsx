@@ -11,26 +11,28 @@ interface PagesListProps {
 
 const PagesList: FC<PagesListProps> = ({pagesQuantity}) => {
     const dispatch = useDispatch();
-    const setCurrentPage = (page: number): void => {dispatch(setCurrentPageActionCreator(page))}
+    const setCurrentPage = (page: number): void => {
+        dispatch(setCurrentPageActionCreator(page));
+    }
 
     const pagesList = getRange(pagesQuantity + 1, 1);
 
     return (
         pagesList.length <= 1
-        ?
-        <></>
-        :
-        <div className="PagesList">
-            {
-                pagesList.map(page => (
-                    <PageButton
-                        key={page}
-                        page={page}
-                        onClick={() => setCurrentPage(page)}
-                    />
-                ))
-            }
-        </div>
+            ?
+            <></>
+            :
+            <div className="PagesList">
+                {
+                    pagesList.map(page => (
+                        <PageButton
+                            key={page}
+                            page={page}
+                            onClick={() => setCurrentPage(page)}
+                        />
+                    ))
+                }
+            </div>
     );
 };
 

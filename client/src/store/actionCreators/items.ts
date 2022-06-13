@@ -12,12 +12,11 @@ import {
 } from "../../types/redux";
 import {ItemKeys, TItem} from "../../types"
 import {getDate} from "../../utils";
-
-const URL = "http://localhost:8080/api";
+import {SERVER_URL} from "../constants";
 
 export const fetchItems = () => {
     return async (dispatch: Dispatch<ItemsAction>) => {
-        const response = await axios.get(URL);
+        const response = await axios.get(SERVER_URL);
         const data: TItem[] = response.data.map((item: TItem) => ({...item, date: (getDate(item.date))}));
         dispatch({type: ItemsActionTypes.FETCH_ITEMS, payload: data})
     }

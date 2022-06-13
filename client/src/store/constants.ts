@@ -13,3 +13,5 @@ export const FILTER_CONDITIONS = {
 };
 
 export const ITEMS_ON_PAGE = 10;
+
+export const SERVER_URL = "http://localhost:8080/api";

@@ -1,11 +1,11 @@
-.TableManager{
+.TableManager {
     margin-top: 1.5em;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: end;
 
-    & *{
+    & * {
         width: 30%;
     }
 }

@@ -13,6 +13,7 @@ import useFetching from "../hooks/useFetching";
 import Loader from "./Loader";
 import FetchingError from "./FetchingError";
 import {checkDateFormat, dateCompareMore} from "../utils";
+import {itemFilterLess, itemFilterMore} from "../utils/itemFilters";
 
 function App() {
     const allItems = useTypeSelector(state => state.items.allItems);
@@ -33,72 +34,33 @@ function App() {
 
     // Применения фильтра
     const filteredItems = useMemo<TItem[]>(() => {
+        // Сравнение будет вестись в нижнем регистре
         const value = filterValue.toLowerCase()
-        let itemsToShow = allItems;
+        let result = allItems;
 
         if (value == "") {
-            return itemsToShow;
+            return result;
         }
 
         switch (filterCondition) {
             case "equal":
-                itemsToShow = allItems.filter((item) => String(item[filterField]).toLowerCase() === value)
+                result = allItems.filter((item) => String(item[filterField]).toLowerCase() === value)
                 break;
 
             case "contains":
-                itemsToShow = allItems.filter((item) => String(item[filterField]).toLowerCase().includes(value))
+                result = allItems.filter((item) => String(item[filterField]).toLowerCase().includes(value))
                 break;
 
             case "more":
-                if (filterField === ItemKeys.distance || filterField === ItemKeys.quantity) {
-                    if (isNaN(Number(value))) {
-                        itemsToShow = [];
-                        break;
-                    }
-
-                    itemsToShow = allItems.filter((item) => item[filterField] > Number(value))
-                    break;
-                }
-
-                if (filterField === ItemKeys.date) {
-                    if (!checkDateFormat(value)) {
-                        itemsToShow = [];
-                        break;
-                    }
-
-                    itemsToShow = allItems.filter((item) => dateCompareMore(item.date, value))
-                    break;
-                }
-
-                itemsToShow = allItems.filter((item) => item[filterField] > value);
+                result = itemFilterMore(allItems, filterField, value);
                 break;
 
             case "less":
-                if (filterField === ItemKeys.distance || filterField === ItemKeys.quantity) {
-                    if (isNaN(Number(value))) {
-                        itemsToShow = [];
-                        break;
-                    }
-
-                    itemsToShow = allItems.filter((item) => item[filterField] < Number(value))
-                    break;
-                }
-
-                if (filterField === ItemKeys.date) {
-                    if (!checkDateFormat(value)) {
-                        itemsToShow = [];
-                        break;
-                    }
-
-                    itemsToShow = allItems.filter((item) => (!dateCompareMore(item.date, value) && item.date !== value))
-                    break;
-                }
-
-                itemsToShow = allItems.filter((item) => item[filterField] < value);
+                result = itemFilterLess(allItems, filterField, value);
                 break;
         }
 
-        return itemsToShow;
+        return result;
     }, [allItems, filterField, filterCondition, filterValue]);
 
     // Сортировка
@@ -106,11 +68,17 @@ function App() {
         if (sortField === null)
             return filteredItems;
 
-        let result: TItem[] = filteredItems.filter(() => true); // Создание копии массива
+        // Создание копии массива
+        let result: TItem[] = filteredItems.filter(() => true);
 
         if (sortField === ItemKeys.distance || sortField === ItemKeys.quantity) {
+
+            // Сортировка по числовым значениям
             result.sort((a, b) => a[sortField] - b[sortField]);
+
         } else {
+
+            // Сортировка по строковым значениям
             result.sort((a, b) => {
                 if (a[sortField] >= b[sortField]) return 1;
                 return -1;
